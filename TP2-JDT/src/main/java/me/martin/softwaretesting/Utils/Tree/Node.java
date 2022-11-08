@@ -34,6 +34,10 @@ public class Node {
         return childs;
     }
 
+    /**
+     * Return the list of leaf under a node
+     * @return List of leaf under this
+     */
     public ArrayList<Leaf> getLeafs() {
         ArrayList<Leaf> ret = new ArrayList<>() ;
 
@@ -48,6 +52,11 @@ public class Node {
         return ret;
     }
 
+    /**
+     * Return if the node have a leaf named name
+     * @param name
+     * @return boolean if node contains name
+     */
     public boolean contains(String name) {
         for (Node c : getChilds()) {
             if  (c instanceof Leaf) {

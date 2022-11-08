@@ -24,7 +24,12 @@ public class SpoonParser {
     private ArrayList<CtModel> models;
     public SpoonParser(){ models = new ArrayList<>();}
 
-
+    /**
+     * Return a list of models from a list of files
+     * @param files
+     * @return list of AST
+     * @throws IOException
+     */
     public ArrayList<CtModel> getAstFromFiles(ArrayList<File> files) throws IOException {
         ArrayList<CtModel> ret = new ArrayList<>() ;
         for (File fileEntry : files) {
@@ -37,6 +42,10 @@ public class SpoonParser {
     }
 
 
+    /**
+     * Build the call graph from the list of models
+     * @return the call graph of the project
+     */
     public Graphe buildCallGraph() {
         Graphe callGraph = new Graphe();
 

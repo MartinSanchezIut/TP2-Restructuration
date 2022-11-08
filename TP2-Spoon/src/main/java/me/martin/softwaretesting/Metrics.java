@@ -15,6 +15,13 @@ import java.util.Set;
 
 public class Metrics {
 
+    /**
+     * Generate a list of modules whoose coupling score is abose cp
+     * @param cp
+     * @param cgraphe
+     * @param cTree
+     * @return list of modules
+     */
     public static ArrayList<Vertex> createCluster(double cp, Graphe cgraphe, Node cTree) {
         ArrayList<Vertex> ret = new ArrayList<>() ;
         int max = cgraphe.getListVertex().size() / 2 ;
@@ -41,7 +48,11 @@ public class Metrics {
         return ret;
     }
 
-
+    /**
+     * Return the clustering tree from a coupling graph
+     * @param couplingGraph
+     * @return clustering tree
+     */
     public static Node buildClusteringTree(Graphe couplingGraph) {
         Node ret = new Node();
 
@@ -100,6 +111,11 @@ public class Metrics {
         return ret;
     }
 
+    /**
+     * Build the coupling graphe from a call graph
+     * @param callGraph
+     * @return the coupling graph
+     */
     public static Graphe buildCouplingGraph(Graphe callGraph) {
         Graphe g = new Graphe();
         ArrayList<String> classes = allClassOfGraph(callGraph);
@@ -121,6 +137,14 @@ public class Metrics {
         }
         return g;
     }
+
+    /**
+     * Return the coupling score of A and B
+     * @param graph
+     * @param classA
+     * @param classB
+     * @return score of coupling
+     */
     public static double couplage(Graphe graph, String classA, String classB) {
         assert graph.getListEdge().size() > 0 ;
         if (!(graphContainsClass(graph, classA) && graphContainsClass(graph, classB))) {
@@ -146,6 +170,11 @@ public class Metrics {
         return (float)countCalls / (float)graph.getListEdge().size() ;
     }
 
+    /**
+     * Return classes of a graph
+     * @param g
+     * @return list of class names
+     */
     public static ArrayList<String> allClassOfGraph(Graphe g) {
         ArrayList<String> ret = new ArrayList<>();
         for (Edge e : g.getListEdge())  {
@@ -157,6 +186,13 @@ public class Metrics {
         }
         return ret;
     }
+
+    /**
+     * Return if a graph contains a given class
+     * @param g
+     * @param className
+     * @return true if g contains classname
+     */
     public static boolean graphContainsClass(Graphe g, String className) {
         for (Vertex v : g.getListVertex()) {
             String[] vName = v.getName().split("\\.") ;
@@ -168,6 +204,11 @@ public class Metrics {
         return false;
     }
 
+    /**
+     * Return the most coupled edge of a list
+     * @param edges
+     * @return the most coupled edge
+     */
     public static Edge getMostCoupledClasses(ArrayList<Edge> edges) {
         if (edges.isEmpty()) { return null; }
         double max = edges.get(0).getWeight() ;
@@ -182,6 +223,14 @@ public class Metrics {
         return v;
     }
 
+    /**
+     * replace all v1 or v2 by v3 in edges
+     * @param v1
+     * @param v2
+     * @param v3
+     * @param edges
+     * @return new list of edges
+     */
     public static ArrayList<Edge> clusterify(Vertex v1, Vertex v2, Vertex v3, ArrayList<Edge> edges) {
         ArrayList<Edge> ret = new ArrayList<>() ;
         ArrayList<Edge> listEdges = new ArrayList<>(edges) ;
@@ -197,7 +246,12 @@ public class Metrics {
         return ret;
     }
 
-
+    /**
+     * return the average coupling of a list of vertices of a graph
+     * @param leafs
+     * @param cgraph
+     * @return the average coupling
+     */
     public static double couplageMoyen(ArrayList<Leaf> leafs, Graphe cgraph) {
         double sum = 0.0 ;
         int nbCouples = 0;

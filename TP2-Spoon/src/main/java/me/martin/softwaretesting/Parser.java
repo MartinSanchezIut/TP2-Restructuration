@@ -17,6 +17,12 @@ import java.util.Map;
 
 public class Parser {
     public static final String jrePath = "/usr/lib/jvm/jrt-fs.jar";
+
+    /**
+     * Return the ast of the code given in parameter
+     * @param classSource
+     * @return AST of classSource
+     */
     public static CompilationUnit parse(char[] classSource) {
         ASTParser parser = ASTParser.newParser(AST.JLS4); // java +1.6
         parser.setResolveBindings(true);
@@ -44,7 +50,15 @@ public class Parser {
     private ClassVisitor methodVisitor ;
 
     public Parser() {         methodVisitor = new ClassVisitor();    }
+
+    /**
+     * Set the method visitor of the parser
+     * @param methodVisitor
+     * @return The parser
+     */
     public Parser setMethodVisitor(ClassVisitor methodVisitor) {         this.methodVisitor = methodVisitor; return this;    }
+
+
     /**
      * Generate asts for the list of file given, accept the visitors
      * @param files
@@ -54,9 +68,6 @@ public class Parser {
     public ArrayList<CompilationUnit> getAstFromFiles(ArrayList<File> files) throws IOException {
         ArrayList<CompilationUnit> ret = new ArrayList<>() ;
         for (File fileEntry : files) {
-            // Recupérer les lignes du fichier
-
-
             String content = FileUtils.readFileToString(fileEntry);
 
             CompilationUnit ast = parse(content.toCharArray());
@@ -68,9 +79,11 @@ public class Parser {
         return ret;
     }
 
-/*
-    Pour chaque classe: recup méthodes: recup appels
- */
+
+    /**
+     * Build the call graph from the list of models
+     * @return the call graph of the project
+     */
     public Graphe buildCallGraph() {
         Graphe callGraph = new Graphe();
         for (TypeDeclaration c : methodVisitor.getMethods()){
@@ -98,6 +111,4 @@ public class Parser {
         }
         return callGraph;
     }
-
-
 }
